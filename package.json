@@ -1,0 +1,25 @@
+{
+  "name": "excel-react",
+  "version": "1.0.0",
+  "description": "Simple Excel",
+  "main": "webpack.config.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/STNKdevelopment/excel-react.git"
+  },
+  "keywords": [
+    "js",
+    "javascript",
+    "ecmascript",
+    "excel"
+  ],
+  "author": "Aleksandr Sytnik <aleksandr.stnk@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/STNKdevelopment/excel-react/issues"
+  },
+  "homepage": "https://github.com/STNKdevelopment/excel-react#readme"
+}

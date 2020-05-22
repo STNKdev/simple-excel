@@ -8,6 +8,7 @@
   left: 0;
   right: 0;
   height: $header-height;
+  user-select: none;
   padding: 8px 4px 0;
   display: flex;
   justify-content: space-between;
@@ -33,6 +34,6 @@
   }
 
   & .button {
-
+    @include button(red);
   }
 }

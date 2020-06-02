@@ -17,9 +17,9 @@ export class Excel {
       const component = new Component($el);
       // $el.innerHTML = component.toHTML();
       // DEBUG
-      if (component.name) {
-        window['c' + component.name] = component;
-      }
+      // if (component.name) {
+      //   window['c' + component.name] = component;
+      // }
       $el.html(component.toHTML());
       $root.append($el);
       // $root.insertAdjacentHTML('beforeend', component.toHTML());

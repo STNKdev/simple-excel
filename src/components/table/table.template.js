@@ -23,7 +23,7 @@ function createRow(index, content) {
       `<div class="row-resize" data-resize="row"></div>` :
       '';
   return `
-    <div class="row">
+    <div class="row" data-type="resizable">
       <div class="row-info">
         ${index ? index : ''}
         ${resize}
@@ -43,12 +43,6 @@ export function createTable(rowsCount = 100) {
 
   const cols = new Array(colsCount)
       .fill('')
-      // .map( (el, index) => {
-      //   return String.fromCharCode(CODES.A + index);
-      // })
-      // .map( (el) => {
-      //   return toColumn(el);
-      // })
       .map(toChar)
       .map(toColumn)
       .join('');

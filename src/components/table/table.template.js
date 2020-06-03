@@ -3,25 +3,34 @@ const CODES = {
   Z: 90
 };
 
-function toCell() {
+function toCell(_, column) {
   return `
-    <div class="cell" contenteditable></div>
-  `;
+    <div class="cell" contenteditable data-column="${column}"></div>
+  `.trim();
 }
 
-function toColumn(col) {
+function toColumn(col, index) {
   return `
-    <div class="column">${col}</div>
-  `;
+    <div class="column" data-type="resizable" data-column="${index}">
+      ${col}
+      <div class="column-resize" data-resize="column"></div>
+    </div>
+  `.trim();
 }
 
 function createRow(index, content) {
+  const resize = index ?
+      `<div class="row-resize" data-resize="row"></div>` :
+      '';
   return `
     <div class="row">
-      <div class="row-info">${index ? index : ''}</div>
+      <div class="row-info">
+        ${index ? index : ''}
+        ${resize}
+      </div>
       <div class="row-data">${content}</div>
     </div>
-  `;
+  `.trim();
 }
 
 function toChar(_, index) {

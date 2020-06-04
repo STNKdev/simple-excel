@@ -45,6 +45,17 @@ class Dom {
     return this.$el.dataset;
   }
 
+  id(parse) {
+    if (parse) {
+      const parsed = this.id().split(':');
+      return {
+        row: +parsed[0],
+        column: +parsed[1]
+      };
+    }
+    return this.data.id;
+  }
+
   closest(selector) {
     return $(this.$el.closest(selector));
   }

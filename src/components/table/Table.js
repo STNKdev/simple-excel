@@ -3,7 +3,7 @@ import {ExcelComponent} from '@core/ExcelComponent';
 import {TableSelection} from '@/components/table/TableSelection';
 import {createTable} from '@/components/table/table.template';
 import {resizeHandler} from '@/components/table/table.size';
-import {isCell, shouldResize} from '@/components/table/table.functions';
+import {isCell, shouldResize, matrix} from '@/components/table/table.functions';
 
 
 export class Table extends ExcelComponent {
@@ -34,7 +34,14 @@ export class Table extends ExcelComponent {
       resizeHandler(this.$root, event);
     } else if (isCell(event)) {
       const $target = $(event.target);
-      this.selection.select($target);
+      if (event.shiftKey) {
+        // group select
+        const $cells = matrix($target, this.selection.current)
+            .map((id) => this.$root.find(`[data-id="${id}"]`));
+        this.selection.selectGroup($cells);
+      } else {
+        this.selection.select($target);
+      }
     }
   }
 }

@@ -3,6 +3,7 @@ export class TableSelection {
 
   constructor() {
     this.group = [];
+    this.current = null;
   }
 
   clear() {
@@ -15,9 +16,16 @@ export class TableSelection {
   // $el instanceof DOM === true
   select($element) {
     this.clear();
-    this.group.push($element);
     $element.addClass('selected');
+    this.group.push($element);
+    this.current = $element;
   }
 
-  selectGroup() {}
+  selectGroup($group = []) {
+    this.clear();
+    this.group = $group;
+    this.group.forEach(
+        ($element) => $element.addClass(TableSelection.className)
+    );
+  }
 }

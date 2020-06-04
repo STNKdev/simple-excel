@@ -16,7 +16,7 @@ export class TableSelection {
   // $el instanceof DOM === true
   select($element) {
     this.clear();
-    $element.addClass('selected');
+    $element.focus().addClass('selected');
     this.group.push($element);
     this.current = $element;
   }

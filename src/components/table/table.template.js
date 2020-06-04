@@ -41,11 +41,13 @@ function createRow(index, content) {
       '';
   return `
     <div class="row" data-type="resizable">
-      <div class="row-info">
+      <div class="row-info none-user-selected">
         ${index ? index : ''}
         ${resize}
       </div>
-      <div class="row-data">${content}</div>
+      <div class="row-data ${index ? '' : 'none-user-selected'}">
+        ${content}
+      </div>
     </div>
   `.trim();
 }

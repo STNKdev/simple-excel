@@ -11,9 +11,11 @@ import {
 export class Table extends ExcelComponent {
   static className = 'excel__table';
 
-  constructor($root) {
+  constructor($root, options) {
     super($root, {
-      listeners: ['mousedown', 'keydown']
+      name: 'Table',
+      listeners: ['mousedown', 'keydown', 'input'],
+      ...options
     });
   }
 
@@ -27,8 +29,23 @@ export class Table extends ExcelComponent {
 
   init() {
     super.init();
-    const $cell = this.$root.find('[data-id="0:0"]');
+
+    this.selectSell(this.$root.find('[data-id="0:0"]'));
+
+    // Подписывается на события ввода
+    this.$on('formula:input', (text) => {
+      this.selection.current.text(text);
+    });
+
+    // Подписывается на события нажатия Enter в Formula для получения фокуса
+    this.$on('formula:done', () => {
+      this.selection.current.focus();
+    });
+  }
+
+  selectSell($cell) {
     this.selection.select($cell);
+    this.$emit('table:select', $cell);
   }
 
   onMousedown(event) {
@@ -63,7 +80,11 @@ export class Table extends ExcelComponent {
       event.preventDefault();
       const id = this.selection.current.id(true);
       const $next = this.$root.find(nextSelector(key, id));
-      this.selection.select($next);
+      this.selectSell($next);
     }
+  }
+
+  onInput(event) {
+    this.$emit('table:input', $(event.target));
   }
 }

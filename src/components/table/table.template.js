@@ -3,10 +3,27 @@ const CODES = {
   Z: 90
 };
 
-function toCell(_, column) {
-  return `
-    <div class="cell" contenteditable data-column="${column}"></div>
-  `.trim();
+// function toCell(row, column) {
+//   return `
+//     <div
+//     class="cell"
+//     contenteditable
+//     data-column="${column}"
+//     data-row="${row}"></div>
+//   `;
+// }
+
+function toCell(row) {
+  return function(_, column) {
+    return `
+      <div
+        class="cell"
+        contenteditable
+        data-type="cell"
+        data-column="${column}"
+        data-id="${row}:${column}"
+       ></div>`;
+  };
 }
 
 function toColumn(col, index) {
@@ -15,7 +32,7 @@ function toColumn(col, index) {
       ${col}
       <div class="column-resize" data-resize="column"></div>
     </div>
-  `.trim();
+  `;
 }
 
 function createRow(index, content) {
@@ -24,11 +41,13 @@ function createRow(index, content) {
       '';
   return `
     <div class="row" data-type="resizable">
-      <div class="row-info">
+      <div class="row-info none-user-selected">
         ${index ? index : ''}
         ${resize}
       </div>
-      <div class="row-data">${content}</div>
+      <div class="row-data ${index ? '' : 'none-user-selected'}">
+        ${content}
+      </div>
     </div>
   `.trim();
 }
@@ -51,12 +70,13 @@ export function createTable(rowsCount = 100) {
   rows.push(createRow(null, cols));
 
   // Основные ячейки
-  for (let i = 0; i < rowsCount; i++) {
+  for (let row = 0; row < rowsCount; row++) {
     const cells = new Array(colsCount)
         .fill('')
-        .map(toCell)
+        // .map((_, column) => toCell(row, column))
+        .map(toCell(row))
         .join('');
-    rows.push(createRow(i + 1, cells));
+    rows.push(createRow(row + 1, cells));
   }
 
   return rows.join('');

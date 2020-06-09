@@ -1,4 +1,4 @@
-import {capitalize} from '@core/ulitls';
+import {capitalize} from '@core/utilits';
 
 export class DOMListener {
   constructor($root, listeners = []) {

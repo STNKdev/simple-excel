@@ -95,5 +95,9 @@
       cursor: row-resize;
     }
   }
+
+  .none-user-selected {
+    user-select: none;
+  }
   
 }

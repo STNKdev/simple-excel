@@ -16,7 +16,9 @@ export function createStore(rootReducer, initialState = {}) {
       listeners.forEach((listener) => listener(state));
     },
     getState() {
-      return state;
+      // По факту обычный state, но с
+      // совершенно другим значением в памяти
+      return JSON.parse(JSON.stringify(state));
     }
   };
 }

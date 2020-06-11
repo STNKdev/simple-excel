@@ -28,6 +28,13 @@ export class Table extends ExcelComponent {
     this.selection = new TableSelection();
   }
 
+  updateTextInStore(value) {
+    this.$dispatch(actions.changeText({
+      id: this.selection.current.id(),
+      value
+    }));
+  }
+
   init() {
     super.init();
 
@@ -36,6 +43,7 @@ export class Table extends ExcelComponent {
     // Подписывается на события ввода
     this.$on('formula:input', (text) => {
       this.selection.current.text(text);
+      this.updateTextInStore(text);
     });
 
     // Подписывается на события нажатия Enter в Formula для получения фокуса
@@ -97,6 +105,7 @@ export class Table extends ExcelComponent {
   }
 
   onInput(event) {
-    this.$emit('table:input', $(event.target));
+    // this.$emit('table:input', $(event.target));
+    this.updateTextInStore($(event.target).text());
   }
 }

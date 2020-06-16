@@ -7,6 +7,7 @@ import {
   isCell, shouldResize, matrix, nextSelector
 } from '@/components/table/table.functions';
 import * as actions from '@/redux/actions';
+import {defaultStyles} from '@/constants';
 
 
 export class Table extends ExcelComponent {
@@ -38,7 +39,7 @@ export class Table extends ExcelComponent {
   init() {
     super.init();
 
-    this.selectSell(this.$root.find('[data-id="0:0"]'));
+    this.selectCell(this.$root.find('[data-id="0:0"]'));
 
     // Подписывается на события ввода
     this.$on('formula:input', (text) => {
@@ -51,12 +52,21 @@ export class Table extends ExcelComponent {
       this.selection.current.focus();
     });
 
-    // this.$subscribe((state) => console.log('Table', state));
+    this.$on('toolbar:applyStyle', (value) => {
+      this.selection.applyStyle(value);
+      this.$dispatch(actions.applyStyle({
+        value: value,
+        ids: this.selection.selectedIds
+      }));
+    });
   }
 
-  selectSell($cell) {
+  selectCell($cell) {
     this.selection.select($cell);
     this.$emit('table:select', $cell);
+    const styles = $cell.getStyles(Object.keys(defaultStyles));
+    console.log('Table:selectCell', 'Styles to dispatch', styles);
+    this.$dispatch(actions.changeStyles(styles));
   }
 
   async resizeTable(event) {
@@ -79,7 +89,7 @@ export class Table extends ExcelComponent {
             .map((id) => this.$root.find(`[data-id="${id}"]`));
         this.selection.selectGroup($cells);
       } else {
-        this.selectSell($target);
+        this.selectCell($target);
       }
     }
   }
@@ -100,7 +110,7 @@ export class Table extends ExcelComponent {
       event.preventDefault();
       const id = this.selection.current.id(true);
       const $next = this.$root.find(nextSelector(key, id));
-      this.selectSell($next);
+      this.selectCell($next);
     }
   }
 

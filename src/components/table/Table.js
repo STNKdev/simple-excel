@@ -4,10 +4,14 @@ import {TableSelection} from '@/components/table/TableSelection';
 import {createTable} from '@/components/table/table.template';
 import {resizeHandler} from '@/components/table/table.resize';
 import {
-  isCell, shouldResize, matrix, nextSelector
+  isCell,
+  matrix,
+  nextSelector,
+  shouldResize
 } from '@/components/table/table.functions';
 import * as actions from '@/redux/actions';
 import {defaultStyles} from '@/constants';
+import {parse} from '@core/parse';
 
 
 export class Table extends ExcelComponent {
@@ -42,9 +46,11 @@ export class Table extends ExcelComponent {
     this.selectCell(this.$root.find('[data-id="0:0"]'));
 
     // Подписывается на события ввода
-    this.$on('formula:input', (text) => {
-      this.selection.current.text(text);
-      this.updateTextInStore(text);
+    this.$on('formula:input', (value) => {
+      this.selection.current
+          .attr('data-value', value)
+          .text(parse(value));
+      this.updateTextInStore(value);
     });
 
     // Подписывается на события нажатия Enter в Formula для получения фокуса
